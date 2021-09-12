@@ -5,7 +5,7 @@ Musical instrument recognition is a fundamental task in understanding music by c
 - Analyzing different characteristics of musical instrument tones and extracting them in a numerical form
 
 ## Dataset
-We use a subset of the [NSynth dataset](https://magenta.tensorflow.org/datasets/nsynth) which is a large collection of musical instrument tones from the Google Magenta project. The subset has 10 classes of different musical instruments, including bass, brass, flute, guitar, keyboard, mallet, organ, reed, string and vocal. For our expriment, it is split into training, validation and test sets. For each class, the training set has 100 audio samples and both validation and test sets have 20 audio samples. You can download the subset [here](https://drive.google.com/drive/folders/1uewIV8Mm4xXCYnkj9nglg5TFsbpnpgDE?usp=sharing). 
+We use a subset of the [NSynth dataset](https://magenta.tensorflow.org/datasets/nsynth) which is a large collection of musical instrument tones from the Google Magenta project. The subset has 10 classes of different musical instruments, including bass, brass, flute, guitar, keyboard, mallet, organ, reed, string and vocal. For our expriment, it is split into training, validation and test sets. For each class, the training set has 110 audio samples and the validation set have 30 audio samples. You can download the subset [here](https://drive.google.com/drive/folders/1uewIV8Mm4xXCYnkj9nglg5TFsbpnpgDE?usp=sharing). 
 
 Once you downloaded the dataset, make sure that you have the following files and folders.  
 
@@ -40,7 +40,7 @@ Finally, run the traing and test code
 $ python train_test.py
 ```
 
-If the run is successful, it will display the validation and test accuracy values.  
+If the run is successful, it will display the validation accuracy values.  
 
 ```
 validation accuracy = 43.5 %
@@ -55,10 +55,10 @@ test accuracy = 43.0 %
 ## Improving Algorithms
 Now it is your turn. You should improve the baseline code by developing your own algorithm. There are many ways to improve it. The followings are possible ideas: 
 
-* Try different MFCC parameter settings: mel-bin size and DCT size
-* Add delta and double-delta of MFCCs
+* Try different MFCC parameter settings: mel-bin size and DCT size.
+* Add delta and double-delta of MFCCs.
 * Add other audio features: spectral statitsics, temporal envelope (e.g. ADSR), and so on. Think about what determines the unique timbre of musical instruments.
-* Codebook-based feature summarization
+* Codebook-based feature summarization.
 * Try different classifiers: k-NN, SVM with nonlinear kernels, MLP, GMM, ...
 * Most of all, observing sounds as a waveform and spectrogram and at the same time listening to them will give you a lot of insight! Audacity is a convenient tool for this purposes. 
 
@@ -67,4 +67,3 @@ You should submit your Python code (.py files) and homework report (.pdf file) t
 * Algorithm Description
 * Experiments and Results
 * Discussion
-* [Important] It is allowed to use both training set and valiation set as training data after finding appropriate hyperparameters. You can also do K-fold cross-validation with the mix of training and validation sets. However, your test accuracy must be computed on the best model on the training and validation sets. In other words, you must not use the test set for hyperparameter search.
