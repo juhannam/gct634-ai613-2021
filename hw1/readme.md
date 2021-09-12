@@ -22,7 +22,7 @@ From the homework git repository, download the following Python files.
 
 * feature_extraction.py: loads audio files, extracts MFCC features using Librosa and stores them in the "mfcc" folder
 * feature_summary.py: contains functions to summarize the extracted MFCC features
-* train_test.py: train models and test it 
+* train_test.py: train models and validate it.
 
 Once you download the files in your homework folder, run the feature extraction first:
 ```
@@ -49,7 +49,6 @@ validation accuracy = 41.5 %
 validation accuracy = 43.5 %
 validation accuracy = 41.0 %
 validation accuracy = 10.0 %
-test accuracy = 43.0 %
 ```
 
 ## Improving Algorithms
