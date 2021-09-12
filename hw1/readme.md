@@ -5,7 +5,7 @@ Musical instrument recognition is a fundamental task in understanding music by c
 - Analyzing different characteristics of musical instrument tones and extracting them in a numerical form
 
 ## Dataset
-We use a subset of the [NSynth dataset](https://magenta.tensorflow.org/datasets/nsynth) which is a large collection of musical instrument tones from the Google Magenta project. The subset has 10 classes of different musical instruments, including bass, brass, flute, guitar, keyboard, mallet, organ, reed, string and vocal. For our expriment, it is split into training, validation and test sets. For each class, the training set has 110 audio samples and the validation set have 30 audio samples. You can download the subset [here](https://drive.google.com/drive/folders/1uewIV8Mm4xXCYnkj9nglg5TFsbpnpgDE?usp=sharing). 
+We use a subset of the [NSynth dataset](https://magenta.tensorflow.org/datasets/nsynth) which is a large collection of musical instrument tones from the Google Magenta project. The subset has 10 classes of different musical instruments, including bass, brass, flute, guitar, keyboard, mallet, organ, reed, string and vocal. For our expriment, it is split into training, validation and test sets. For each class, the training set has 110 audio samples and the validation set have 30 audio samples. You can download the subset [here](https://drive.google.com/drive/folders/1-HSAKbbY1ohTW4KylvmB25o0aHrJurbk?usp=sharing). 
 
 Make './dataset/' directory, and download the dataset to './dataset/'.
 Once you downloaded the dataset, make sure that you have the following files and folders.  
