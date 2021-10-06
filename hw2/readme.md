@@ -1,4 +1,4 @@
-# Homework #2: Music Auto Tagging (Multi-Label Classification and Metric Learning Approach)[Colab Notebook](https://colab.research.google.com/drive/1GiLTl5LH83dG2txxY6D0cMZM-Gj1-kou?usp=sharing)
+# Homework #2: Music Auto Tagging (Multi-Label Classification and Metric Learning Approach)[Colab Notebook](https://colab.research.google.com/drive/1ijCsGBbECCFbBtNmoR6Um8eLW2qUoxN9?usp=sharing)
 
 Music auto-tagging is an important task that can be used in many musical applications such as music search or recommender systems. 
 
@@ -42,7 +42,7 @@ The baseline model extracts mel-spectrogram and has a simple set of CNN model th
 ### Question 1: Implement a CNN based on a given model specification
 An architecture of CNN will be provided. Implement a CNN following the architecture.
 
-### Question 2: Improve the performenace.
+### Question 2: Improve the performenace. [Leader Board](https://docs.google.com/spreadsheets/d/1_tH-9c1JEgZjPumv6wFjAbBubTEKaP_eYtPZ95sCgcc/edit?usp=sharing)
 Now it is your turn. You should improve the baseline code with your own algorithm. There are many ways to improve it. The followings are possible ideas: 
 
 * You can try 1D CNN or 2D CNN models and choose different model parameters:
@@ -73,14 +73,16 @@ Implement a multi-label recall for metric learning.
 
 If one of the top K retrieved results has the same class label as the query song, the recall@K is set to 1, otherwise it is set to 0. This process is repeated for all samples in the test set and then averaged. Our data is multi-labeled, however, so we adapt the standard single-label (multi-class) R@K metric to create a multi-label variant. Our definition is
 
+```
 $$
 Recall@K = \frac{1}{N} \Sigma^{N}_{q=1} 
 \frac{n(y^{q} \cap (\cup^{K}_{i=1}y^{i})}{n(y^{q})}
 $$
+```
 
 where $N$ is the number of test samples, $y^{q}$ is the ground truth labels of a query, and $y^{i}$ is the ground truth labels of the top $K$ retrieved results. And, $n(·)$ denotes the number of the elements of a set. In this setup, if the set of labels of the top K retrieved results contains all the multiple labels of the query song, the recall@K is set to 1, otherwise it is set to the correct answer ratio. We report R@K when K is 1, 2, 4, and 8.
 
-### [Question 4] Improve the performenace.
+### [Question 4] Improve the performenace. [Leader Board](https://docs.google.com/spreadsheets/d/1_tH-9c1JEgZjPumv6wFjAbBubTEKaP_eYtPZ95sCgcc/edit?usp=sharing)
 Now it is your turn. You should improve the baseline code with your own algorithm. There are many ways to improve it. The followings are possible ideas: 
 
 * Change backbone model
