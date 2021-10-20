@@ -73,12 +73,7 @@ Implement a multi-label recall for metric learning.
 
 If one of the top K retrieved results has the same class label as the query song, the recall@K is set to 1, otherwise it is set to 0. This process is repeated for all samples in the test set and then averaged. Our data is multi-labeled, however, so we adapt the standard single-label (multi-class) R@K metric to create a multi-label variant. Our definition is
 
-```
-$$
-Recall@K = \frac{1}{N} \Sigma^{N}_{q=1} 
-\frac{n(y^{q} \cap (\cup^{K}_{i=1}y^{i})}{n(y^{q})}
-$$
-```
+<figure><img src="fig.png">
 
 where $N$ is the number of test samples, $y^{q}$ is the ground truth labels of a query, and $y^{i}$ is the ground truth labels of the top $K$ retrieved results. And, $n(·)$ denotes the number of the elements of a set. In this setup, if the set of labels of the top K retrieved results contains all the multiple labels of the query song, the recall@K is set to 1, otherwise it is set to the correct answer ratio. We report R@K when K is 1, 2, 4, and 8.
 
