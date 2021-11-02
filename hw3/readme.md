@@ -133,7 +133,7 @@ $ python transcribe.py runs/exp_201108-131123/model-10000.pt data/2006/MIDI-Unpr
 save_path: runs/exp_201108-131123/MIDI-Unprocessed_03_R1_2006_01-05_ORIG_MID--AUDIO_03_R1_2006_04_Track04_wav_transcribed
 ...
 ```
-It will make three files (save_path: runs/exp_201108-131123/MIDI-Unprocessed_03_R1_2006_01-05_ORIG_MID--AUDIO_03_R1_2006_04_Track04_wav_transcribed.{npz, midi, wav}.
+It will generate three files: `runs/exp_201108-131123/MIDI-Unprocessed_03_R1_2006_01-05_ORIG_MID--AUDIO_03_R1_2006_04_Track04_wav_transcribed.{npz, midi, wav}`.
 
 ## Credit
 Many lines of codes are borrowed from [Onsets-and-Frames implementation](https://github.com/jongwook/onsets-and-frames) of Jongwook Kim. Implemented by [Taegyun Kwon](https://taegyunkwon.github.io/) @ [MAClab](https://mac.kaist.ac.kr/).
