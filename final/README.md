@@ -28,8 +28,8 @@ You can also check final projects from the previous years:
 - [2018 Final Projects](https://mac.kaist.ac.kr/~juhan/gct634/2018/final.html)
 
 
-### 3. Meeting With Professor
-Once you form a team and select a topic, make an appointment with Prof. Juhan Nam. We will have a concentrated meeting week on Nov 22-26 (Meeting time slots will be announced later). If you would like to meet the professor early, however, feel free to request a meeting any time before the week. 
+### 3. Meeting With the Professor
+Once you form a team and select a topic, make an appointment with Prof. Juhan Nam. We will have a concentrated meeting week on Nov 22-26 (Meeting time slots will be announced later). If you would like to meet the professor early, you can also request a meeting before the week. 
 
 ### 4. Ask TAs
 Also, feel free to request a meeting with TAs to get help about your final project.
@@ -40,6 +40,7 @@ Write the introduction, related works and other progresses within 2 pages in the
 ### 6. Final Presentation
 - Video recording of your final project presentation
 - The length is expected to be about 5 minutes
+- Your presentation video will be shared via YouTube (only within our class)
 
 ### 7. Final Report
 - Use the provided template (WORD or Latex format)
