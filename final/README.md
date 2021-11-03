@@ -36,7 +36,7 @@ Once you form a team and select a topic, make an appointment with Prof. Juhan Na
 ### 4. Ask TAs
 Also, feel free to request a meeting with TAs to get help about your final project.
 
-### 5. Milestone
+### 5. Progress Report
 Write the introduction, related works and other progresses within 2 pages in the final report template.
 
 ### 6. Final Presentation
@@ -52,5 +52,6 @@ Write the introduction, related works and other progresses within 2 pages in the
 ### *** Important Dates ***
 - Nov 19 (Fri): Team buidling due 
 - Nov 22 (Mon) - 26(Fri): Meeting with Prof. Nam
-- Dec 3 (Fri): Milestone due 
+- Dec 3 (Fri): Progress report due 
 - Dec 17 (Fri): Final report and presentation video due
+
