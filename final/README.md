@@ -2,7 +2,9 @@
 
 
 ### 1. Team Building
-Find classmates to form a final project team. One team can include up to 3 members.
+- Find classmates to form a final project team. One team can include up to 3 team members.
+- In case you cannot find teammates, TAs will help the matching
+- Put your names and team project title [here](https://docs.google.com/spreadsheets/d/1CS6xoMCSiziFwJEkrutov6qRWt5HqOKTJ-CAtdQDO5c/edit?usp=sharing)
 
 ### 2. Topic Selection
 You can select any topic within the scope of music and audio research. Possible topics include:
@@ -48,8 +50,7 @@ Write the introduction, related works and other progresses within 2 pages in the
 - **[important] The last section of your report must be dedicated to describe the contribution of each team member (who did what)**
 
 ### *** Important Dates ***
-- Nov 22 (Mon) - 26(Fri): Meeting with Professor
+- Nov 19 (Fri): Team buidling due 
+- Nov 22 (Mon) - 26(Fri): Meeting with Prof. Nam
 - Dec 3 (Fri): Milestone due 
 - Dec 17 (Fri): Final report and presentation video due
-
-
