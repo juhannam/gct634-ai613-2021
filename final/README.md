@@ -17,6 +17,7 @@ You can select any topic within the scope of music and audio research. Possible 
 - Music Source Separation
 - Symbolic Music Generation: Piano, Drum, Multi-Track
 - Sound Synthesis
+- Multi-modal music Retrieval or Generation
 - Novel Datasets
 
 The latest research can be found at conferences in the field of music and audio research such as ISMIR or ICASSP. 
