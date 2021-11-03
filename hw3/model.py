@@ -22,8 +22,7 @@ class LogMelSpectrogram(nn.Module):
         # When they convert the input into frames,
         # pretty_midi.get_piano_roll uses `ceil`,
         # but torchaudio.transforms.melspectrogram uses `round`.
-        padded_audio = nn.functional.pad(audio, (HOP_SIZE // 2, HOP_SIZE // 2),
-                                         'constant')
+        padded_audio = nn.functional.pad(audio, (HOP_SIZE // 2, 0), 'constant')
         mel = self.melspectrogram(padded_audio)[:, :, 1:]
         mel = mel.transpose(-1, -2)
         mel = torch.log(torch.clamp(mel, min=1e-9))
