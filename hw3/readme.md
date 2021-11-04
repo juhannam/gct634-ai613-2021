@@ -43,7 +43,7 @@ $ ls data
 
 We provide `dataloader` to process the dataset in [`dataset.py`](dataset.py). It will segment the audio and midis into specified length (when `sequence_length` is given), or precess the whole audio (when `sequence_length=None`), and convert the midi into piano roll format (frame roll and onset roll). Details are explained in the [`notebooks/dataset.ipynb`](notebooks/dataset.ipynb).
 
-## Training simple CNN based model
+## Training simple CNN-based model
 Complete baseline codes are given (CNN architecture is based on work by [Kelz et al.](https://arxiv.org/pdf/1612.05153.pdf)). In the Baseline model, each onset and frame is seperately processed by a CNN model (`model.Transcriber`). You can run the whole process by running [`train.py`](train.py) (you might see some warning, but it's fine). It requires ~4.8GB GRAM and ~1.5GB RAM. If it exceed the limit of your envionment, try smaller `batch_size` or `sequence_length`. If you use `--save_midi` option, it will save resulting midi files at `logdir`. Checkout the options in [`train.py`](train.py).
 ```
 $ python train.py
@@ -83,8 +83,8 @@ The prediction of the network will be evaluated in two ways.
 
 If you are not familiar with precision / recall / F-score, checkout the [Wikipedia article on F-score](https://en.wikipedia.org/wiki/F-score). But you can focus on F1 score since it's quite a faithful metric.
 
-## Question 1: Implement LSTM based model.
-Go to [`model.py`](model.py) and implement a model that only consists of LSTM layers. Use the same specification as the baseline.
+## Question 1: Implement LSTM-based model.
+Go to [`model.py`](model.py) and implement a model that only consists of LSTM layers. The specification is shown below: it is the same as the CNN-based baseline model except for the LSTM layer.
 | Layer     | Spec                                                    | Output shape  |
 |-----------|---------------------------------------------------------|---------------|
 | LogMel    | model.LogMelSpectrogram                                 | `(Time, 229)` |
@@ -93,7 +93,7 @@ Go to [`model.py`](model.py) and implement a model that only consists of LSTM la
 
 
 ## Question 2: Implement CNN-RNN (CRNN) model.
-Implement a model that consists of both CNN and LSTM layers.
+Implement a model that consists of both CNN and LSTM layers. The specification is shown below.
 | Layer     | Spec                                                    | Output shape      |
 |-----------|---------------------------------------------------------|-------------------|
 | LogMel    | model.LogMelSpectrogram                                 | `(Time, 229)`     |
