@@ -43,7 +43,7 @@ $ ls data
 
 We provide `dataloader` to process the dataset in [`dataset.py`](dataset.py). It will segment the audio and midis into specified length (when `sequence_length` is given), or precess the whole audio (when `sequence_length=None`), and convert the midi into piano roll format (frame roll and onset roll). Details are explained in the [`notebooks/dataset.ipynb`](notebooks/dataset.ipynb).
 
-## Training simple CNN based model
+## Training simple CNN-based model
 Complete baseline codes are given (CNN architecture is based on work by [Kelz et al.](https://arxiv.org/pdf/1612.05153.pdf)). In the Baseline model, each onset and frame is seperately processed by a CNN model (`model.Transcriber`). You can run the whole process by running [`train.py`](train.py) (you might see some warning, but it's fine). It requires ~4.8GB GRAM and ~1.5GB RAM. If it exceed the limit of your envionment, try smaller `batch_size` or `sequence_length`. If you use `--save_midi` option, it will save resulting midi files at `logdir`. Checkout the options in [`train.py`](train.py).
 ```
 $ python train.py
@@ -83,9 +83,12 @@ The prediction of the network will be evaluated in two ways.
 
 If you are not familiar with precision / recall / F-score, checkout the [Wikipedia article on F-score](https://en.wikipedia.org/wiki/F-score). But you can focus on F1 score since it's quite a faithful metric.
 
-## Question 1: Implement LSTM based model.
-Go to [`model.py`](model.py) and implement a model that only consists of LSTM layers. Use the same specification as the baseline.
-| Layer     | Spec                                                    | Output shape  |
+## Question 1: Implement LSTM-based model.
+Go to [`model.py`](model.py) and implement a model that only consists of LSTM layers.
+
+### Specification
+The specification is shown below: it is the same as the CNN-based baseline model except for the LSTM layer.
+| Layer     | Specification                                           | Output shape  |
 |-----------|---------------------------------------------------------|---------------|
 | LogMel    | model.LogMelSpectrogram                                 | `(Time, 229)` |
 | LSTM      | 2 layer Bi-directional LSTM. 88 unit for each direction.| `(Time, 88*2)`|
@@ -94,11 +97,13 @@ Go to [`model.py`](model.py) and implement a model that only consists of LSTM la
 
 ## Question 2: Implement CNN-RNN (CRNN) model.
 Implement a model that consists of both CNN and LSTM layers.
-| Layer     | Spec                                                    | Output shape      |
+
+### Specification
+| Layer     | Specification                                           | Output shape      |
 |-----------|---------------------------------------------------------|-------------------|
 | LogMel    | model.LogMelSpectrogram                                 | `(Time, 229)`     |
 | ConvStack | model.ConvStack                                         | `(Time, fc_unit)` |
-| LSTM      | 2 layer Bi-directional LSTM. 88 unit for each direction.| `(Time, 88*2)`   |
+| LSTM      | 2 layer Bi-directional LSTM. 88 unit for each direction.| `(Time, 88*2)`    |
 | Output FC | 88 unit, linear                                         | `(Time, 88)`      |
 
 ## Question 3: Implement Onsets-and-Frames model, which have inter-connection between onsets and frames.
@@ -106,9 +111,68 @@ In the work of [Hawrhorne et al.](https://arxiv.org/abs/1710.11153), they insert
 
 Beware that we do not want the gradient from the frame loss to flow down this inter-connection and affect the onset prediction stack. For this reason, you should [stop the gradient](https://pytorch.org/docs/stable/generated/torch.Tensor.detach.html) when you make the inter-connection.
 
-<center><img src="onf.png" width="50%"></center>
+### Specification
+* Audio is transformed into Log Mel-Spectrogram.
+* Onset Stack:
+  - takes as input:
+    + Log Mel-Spectrogram
+  - passes it through:
+    + Conv Stack
+    + BiLSTM
+    + FC
+  - to produce:
+    + Onset Logits
+* Frame Stack:
+  - takes as input:
+    + Log Mel-Spectrogram
+  - passes it through:
+    + Conv Stack
+    + FC
+    + Concatenate with the Onset Logits (inter-connection)
+    + BiLSTM
+    + FC
+  - to produce:
+    + Frame Logits
 
-Note: Ignore the "Sigmoid" label in the bottom-most "FC Sigmoid" layer of the frame-loss stack in the image above. You can use just an FC layer without a sigmoid.
+Below is a diagram that illustrates this specification.
+```
+┌───────────────────┐
+│ Frame Predictions │
+└───────────────────┘
+          ▲
+┌─────────┴─────────┐       ┌───────────────────┐
+│      Sigmoid      │       │ Onset Predictions │
+└───────────────────┘       └───────────────────┘
+          ▲                           ▲
+┌─────────┴─────────┐       ┌─────────┴─────────┐
+│   Frame Logits    │       │      Sigmoid      │
+└───────────────────┘       └───────────────────┘
+          ▲            ┌───────────┐  ▲
+┌─────────┴─────────┐  │    ┌──────┴──┴─────────┐
+│        FC         │  │    │    Onset Logits   │
+└───────────────────┘  │    └───────────────────┘
+          ▲            │              ▲
+┌─────────┴─────────┐  │    ┌─────────┴─────────┐
+│      BiLSTM       │  │    │        FC         │
+└───────────────────┘  │    └───────────────────┘
+          ▲  ▲         │              ▲
+          │  └─────────┘              │
+┌─────────┴─────────┐       ┌─────────┴─────────┐
+│        FC         │       │      BiLSTM       │
+└───────────────────┘       └───────────────────┘
+          ▲                           ▲
+┌─────────┴─────────┐       ┌─────────┴─────────┐
+│    Conv Stack     │       │    Conv Stack     │
+└───────────────────┘       └───────────────────┘
+               ▲                ▲
+           ┌───┴────────────────┴────┐
+           │   Log Mel-Spectrogram   │
+           └─────────────────────────┘
+                        ▲
+           ┌────────────┴────────────┐
+           │          Audio          │
+           └─────────────────────────┘
+```
 
 ## Question 4: Discuss and analyze the results.
 1. Visualize at least one sample of your prediction (onset and frame) in the piano roll format (use the codes in [`notebooks/dataset.ipynb`](notebooks/dataset.ipynb) as a reference).
