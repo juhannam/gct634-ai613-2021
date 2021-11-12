@@ -22,7 +22,7 @@ def evaluate(model, batch, device, save=False, save_path=None):
 
     criterion = nn.BCEWithLogitsLoss()
     frame_loss = criterion(frame_logit, batch['frame'])
-    onset_loss = criterion(frame_logit, batch['onset'])
+    onset_loss = criterion(onset_logit, batch['onset'])
     metrics['metric/loss/frame_loss'].append(frame_loss.cpu().numpy())
     metrics['metric/loss/onset_loss'].append(onset_loss.cpu().numpy())
 
