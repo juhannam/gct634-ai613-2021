@@ -48,10 +48,10 @@ Complete baseline codes are given (CNN architecture is based on work by [Kelz et
 ```
 $ python train.py
 Loading 1 group of MAESTRO_small at data
-Loading group train: 100%|█████████████████████████████████████| 100/100 [00:25<00:00,  3.97it/s]
+Loading group train: 100%|████████████████████| 100/100 [00:25<00:00,  3.97it/s]
 Loading 1 group of MAESTRO_small at data
-Loading group validation: 100%|████████████████████████████████████████| 20/20 [00:04<00:00,  4.08it/s]
-10%|████████████████▌                                  | 999/10000 [02:20<23:03,  6.51it/s, loss: 1.381e-01]
+Loading group validation: 100%|█████████████████| 20/20 [00:04<00:00,  4.08it/s]
+10%|██                     | 999/10000 [02:20<23:03,  6.51it/s, loss: 1.381e-01]
 metric/loss/frame_loss      : 0.0873
 metric/loss/onset_loss      : 0.0416
 metric/frame/frame_f1       : 0.3632
@@ -65,8 +65,8 @@ If it takes too long, or something goes wrong, try debug mode, which uses smalle
 ```
 $ python train.py --debug
 Loading 1 group of MAESTRO_small at data
-Loading group debug: 100%|███████████████████████████████████████████████████████████| 10/10 [00:03<00:00,  3.02it/s]
-  8%|█████████████                                                                 | 8/100 [00:00<00:08, 11.09it/s, loss: 4.227e-01]
+Loading group debug: 100%|██████████████████████| 10/10 [00:03<00:00,  3.02it/s]
+  8%|█                         | 8/100 [00:00<00:08, 11.09it/s, loss: 4.227e-01]
 metric/loss/frame_loss      : 0.3231
 metric/loss/onset_loss      : 0.2134
 metric/frame/frame_f1       : 0.0850
@@ -82,6 +82,24 @@ The prediction of the network will be evaluated in two ways.
 * When we calculate note-wise metric `metirc/note`, we first decode the predictions into notes (`evaluate.extract_notes`) with a simple heuristic. The predicted note is assumed correct when the onset error is within ±50ms and the offset error is within ±50ms or 20% of the note duration. We use [`mir_eval`](https://craffel.github.io/mir_eval/) for evaluation.
 
 If you are not familiar with precision / recall / F-score, checkout the [Wikipedia article on F-score](https://en.wikipedia.org/wiki/F-score). But you can focus on F1 score since it's quite a faithful metric.
+
+## Testing models
+Once you finish implementing the following three models, you can run the following testing command:
+```
+$ python model.py
+Loading 1 group(s) of MAESTRO_small at data
+Loading group debug: 100%|█████████████████████| 10/10 [00:07<00:00,  1.42it/s]
+Testing Transcriber_RNN forward...passed!
+Testing Transcriber_RNN backward...passed!
+Testing Transcriber_CRNN forward...passed!
+Testing Transcriber_CRNN backward...passed!
+Testing Transcriber_ONF forward...passed!
+Testing Transcriber_ONF backward...passed!
+All tests passed!
+```
+Note that the test fails if your model's `__init__` function defines its layers in a different order than the order in this repository.
+
+Running and passing the test is totally optional, so don't worry. If the test fails, TAs will manually check your implementation.
 
 ## Question 1: Implement LSTM-based model.
 Go to [`model.py`](model.py) and implement a model that only consists of LSTM layers.
@@ -115,63 +133,63 @@ Beware that we do not want the gradient from the frame loss to flow down this in
 * Audio is transformed into Log Mel-Spectrogram.
 * Onset Stack:
   - takes as input:
-    + Log Mel-Spectrogram
+    + Log Mel-Spectrogram (Output shape `(Time, 229)`)
   - passes it through:
-    + Conv Stack
-    + BiLSTM
-    + FC
+    + Conv Stack (Output shape `(Time, fc_unit)`)
+    + 2-layer BiLSTM (Output shape `(Time, 88*2)`)
+    + FC (Output shape `(Time, 88)`)
   - to produce:
     + Onset Logits
 * Frame Stack:
   - takes as input:
-    + Log Mel-Spectrogram
+    + Log Mel-Spectrogram (Output shape `(Time, 229)`)
   - passes it through:
-    + Conv Stack
-    + FC
+    + Conv Stack (Output shape `(Time, fc_unit)`)
+    + FC (Output shape `(Time, 88)`)
     + Concatenate with the Onset Logits (inter-connection)
-    + BiLSTM
-    + FC
+    + 2-layer BiLSTM (Output shape `(Time, 88*2)`)
+    + FC (Output shape `(Time, 88)`)
   - to produce:
     + Frame Logits
 
 Below is a diagram that illustrates this specification.
 ```
-┌───────────────────┐
-│ Frame Predictions │
-└───────────────────┘
++-------------------+
+| Frame Predictions |
++-------------------+
           ▲
-┌─────────┴─────────┐       ┌───────────────────┐
-│      Sigmoid      │       │ Onset Predictions │
-└───────────────────┘       └───────────────────┘
++---------+---------+       +-------------------+
+|      Sigmoid      |       | Onset Predictions |
++-------------------+       +-------------------+
           ▲                           ▲
-┌─────────┴─────────┐       ┌─────────┴─────────┐
-│   Frame Logits    │       │      Sigmoid      │
-└───────────────────┘       └───────────────────┘
-          ▲            ┌───────────┐  ▲
-┌─────────┴─────────┐  │    ┌──────┴──┴─────────┐
-│        FC         │  │    │    Onset Logits   │
-└───────────────────┘  │    └───────────────────┘
-          ▲            │              ▲
-┌─────────┴─────────┐  │    ┌─────────┴─────────┐
-│      BiLSTM       │  │    │        FC         │
-└───────────────────┘  │    └───────────────────┘
-          ▲  ▲         │              ▲
-          │  └─────────┘              │
-┌─────────┴─────────┐       ┌─────────┴─────────┐
-│        FC         │       │      BiLSTM       │
-└───────────────────┘       └───────────────────┘
++---------+---------+       +---------+---------+
+|   Frame Logits    |       |      Sigmoid      |
++-------------------+       +-------------------+
+          ▲             +----------+  ▲
++---------+---------+   |   +------+--+---------+
+|        FC         |   |   |    Onset Logits   |
++-------------------+   |   +-------------------+
+          ▲             |             ▲
++---------+---------+   |   +---------+---------+
+|      BiLSTM       |   |   |        FC         |
++-------------------+   |   +-------------------+
+          ▲  ▲          |             ▲
+          |  +----------+             |
++---------+---------+       +---------+---------+
+|        FC         |       |      BiLSTM       |
++-------------------+       +-------------------+
           ▲                           ▲
-┌─────────┴─────────┐       ┌─────────┴─────────┐
-│    Conv Stack     │       │    Conv Stack     │
-└───────────────────┘       └───────────────────┘
++---------+---------+       +---------+---------+
+|    Conv Stack     |       |    Conv Stack     |
++-------------------+       +-------------------+
                ▲                ▲
-           ┌───┴────────────────┴────┐
-           │   Log Mel-Spectrogram   │
-           └─────────────────────────┘
+           +---+----------------+----+
+           |   Log Mel-Spectrogram   |
+           +-------------------------+
                         ▲
-           ┌────────────┴────────────┐
-           │          Audio          │
-           └─────────────────────────┘
+           +------------+------------+
+           |          Audio          |
+           +-------------------------+
 ```
 
 ## Question 4: Discuss and analyze the results.
