@@ -10,7 +10,7 @@ In this homework, your task is to re-implement two RNN-based transcription model
 * Experiencing the deep learning process with sequential data.
 * Getting familiar with RNN architectures.
 
-Due date: November 14, 11:59 PM (KST)
+Due date: November 21, 11:59 PM (KST)
 
 ## Environment
 This homework requires several packages.
