@@ -5,8 +5,6 @@ Generate pop piano music using Transformer models. In this task, we use REMI, wh
 - Experience MIDI, REMI data processing
 - Experience Transformer architecture
 
----
-
 ## **Getting Started**
 
 ### **Install Dependencies**
@@ -28,8 +26,6 @@ We can use the MIDI files including local tempo changes and estimated chord. [(
 
 - `data/train`: 775 files used for training models
 - `data/evaluation`: 100 files (prompts) used for the continuation experiments
-
----
 
 ## Tasks and Deliverables
 
@@ -61,13 +57,9 @@ You should submit  
 
 FYI, We are not gonna judge the musical quality of the results
 
----
-
 ## How to synthesize the audio files?
 
 We strongly recommend using DAW and VSTI : [Reaper](https://www.reaper.fm/) (FREE DAW), [Spitfire audio LABS](https://labs.spitfireaudio.com/#type=&search=&new=true) (Free Piano VSTI) to open/play the generated MIDI files. Or, you can use [FluidSynth](https://github.com/FluidSynth/fluidsynth) with a [SoundFont](https://sites.google.com/site/soundfonts4u/). However, it may not be able to correctly handle the tempo changes (see fluidsynth/issues/141).
-
----
 
 ## Reference
 
